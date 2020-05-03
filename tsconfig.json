@@ -1,0 +1,12 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es2015",
+        "allowJs": true,
+        "experimentalDecorators": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}

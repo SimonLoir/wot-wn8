@@ -1,0 +1,57 @@
+{
+    "name": "wot-wn8",
+    "version": "0.0.1",
+    "description": "A wot stat server",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prod": "webpack -p",
+        "server": "pm2 start app.js --no-vizion --watch",
+        "logs": "pm2 logs",
+        "server-end": "pm2 stop app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SimonLoir/wot-wn8.git"
+    },
+    "keywords": [
+        "WOT",
+        "wn8"
+    ],
+    "author": "Simon Loir and Gabriel Benoit",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/SimonLoir/wot-wn8/issues"
+    },
+    "homepage": "https://github.com/SimonLoir/wot-wn8#readme",
+    "devDependencies": {
+        "css-loader": "^3.5.2",
+        "node-sass": "^4.13.1",
+        "pm2": "^4.3.1",
+        "sass-loader": "^8.0.2",
+        "style-loader": "^1.1.4",
+        "ts-loader": "^7.0.1",
+        "typescript": "^3.8.3",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.11",
+        "webpack-node-externals": "^1.7.2",
+        "@types/express": "^4.17.6"
+    },
+    "dependencies": {
+        "@types/bcrypt": "^3.0.0",
+        "@types/cookie-parser": "^1.4.2",
+        "@types/express-session": "^1.17.0",
+        "@types/mysql": "^2.15.10",
+        "bcrypt": "^4.0.1",
+        "body-parser": "^1.19.0",
+        "cookie-parser": "^1.4.5",
+        "ejs": "^3.0.2",
+        "express": "^4.17.1",
+        "express-force-https": "^1.0.0",
+        "express-session": "^1.17.1",
+        "fetch": "^1.1.0",
+        "mysql": "^2.18.1",
+        "node-fetch": "^2.6.0",
+        "soap": "^0.31.0"
+    }
+}
