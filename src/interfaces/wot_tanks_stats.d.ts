@@ -2,7 +2,7 @@ declare interface wot_tanks_stats_request {
     status: string;
     meta: { count: number };
     data: {
-        [player_id: string]: wot_tank_stats;
+        [player_id: string]: wot_tank_stats[];
     };
 }
 
