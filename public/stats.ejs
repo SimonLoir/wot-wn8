@@ -3,12 +3,13 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>WOT wn8</title>
+        <title></title>
+        <script>
+            data = <%- JSON.stringify(params) %>;
+        </script>
     </head>
     <body>
         <%- include("header") %>
-        <input type="text" id="player_name" />
-        <button id="search">Rechercher</button>
-        <script src="site.js"></script>
+        <script src="stats.js"></script>
     </body>
 </html>
