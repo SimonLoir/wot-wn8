@@ -34,11 +34,13 @@ const load = async () => {
 
     const tanks_stats = getTanksStats.data[user_id];
 
+    const table = main.appendChild(document.createElement('table'));
+
     tanks_stats
         .sort((a, b) => b.all.battles - a.all.battles)
         .forEach((t) => {
             const tank = { ...t, ...tanks[t.tank_id] };
-            const tank_div = main.appendChild(document.createElement('div'));
+            const tank_div = table.appendChild(document.createElement('tr'));
 
             const tank_battles = tank.all.battles;
             const tank_expected = expected[tank.tank_id];
@@ -86,11 +88,13 @@ const load = async () => {
                 145 * Math.min(1.8, r_win_c);
 
             tank_div.innerHTML = `
-        <h3>${tank.name}</h3>
-        <!--<img src="${
-            tank.images.small_icon
-        }" style="display: inline-block">-->
-        ${wn8.toFixed(0)}
+            <td>${tank.name}</td>
+            <td>
+                <img src="${tank.images.small_icon}">
+            </td>
+            <td>
+                ${wn8.toFixed(0)}
+            </td>
         `;
         });
 };
