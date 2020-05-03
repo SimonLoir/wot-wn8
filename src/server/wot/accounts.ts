@@ -8,4 +8,8 @@ export default class WOTAPIAccount extends WOTAPI_default {
     public async search(player_name: string): Promise<wot_player_search> {
         return await this.call('account/list', { search: player_name });
     }
+
+    public async info(player_id: string): Promise<wot_player_info> {
+        return await this.call('account/info', { account_id: player_id });
+    }
 }
