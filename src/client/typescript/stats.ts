@@ -13,6 +13,7 @@ const load = async () => {
 
     const player_global_info = main.appendChild(document.createElement('div'));
     player_global_info.innerHTML = `
+    <h2>${player.nickname}</h2>
     Last battle : ${new Date(player.last_battle_time * 1000).toLocaleString()} 
     <br />
     Last seen : ${new Date(player.logout_at * 1000).toLocaleString()} 
