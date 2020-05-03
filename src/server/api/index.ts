@@ -9,3 +9,10 @@ API.get(
         res.json(await WOTEU.accounts.search(req.params.name));
     })
 );
+
+API.get(
+    '/player/:player_id/info',
+    asyn(async (req, res) => {
+        res.json(await WOTEU.accounts.info(req.params.player_id));
+    })
+);
