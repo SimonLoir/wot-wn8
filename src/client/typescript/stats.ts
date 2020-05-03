@@ -90,7 +90,10 @@ const load = async () => {
             tank_div.innerHTML = `
             <td>${tank.name}</td>
             <td>
-                <img src="${tank.images.small_icon}">
+                <img src="${tank.images.small_icon.replace(
+                    'http://',
+                    'https://'
+                )}">
             </td>
             <td>
                 ${wn8.toFixed(0)}
