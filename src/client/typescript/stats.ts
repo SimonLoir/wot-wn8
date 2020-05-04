@@ -48,8 +48,8 @@ const load = async () => {
             <th>Image</th>
             <th>Tank</th>
             <th>Win</th>
-            <th>Dmg</th>
-            <th>XP</th>
+            <th>Avg dmg</th>
+            <th>Avg XP</th>
             <th>Battles</th>
             <th>WN8</th>
         </tr>
