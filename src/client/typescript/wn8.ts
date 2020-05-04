@@ -54,3 +54,15 @@ export function wn8(
         145 * Math.min(1.8, r_win_c)
     );
 }
+
+export function getColor(wn8: number) {
+    if (wn8 < 300) return 'black';
+    else if (wn8 < 599) return 'rgb(205,51,51)';
+    else if (wn8 < 899) return 'rgb(215,121,0)';
+    else if (wn8 < 1249) return 'rgb(215,182,0)';
+    else if (wn8 < 1599) return 'rgb(109,149,33)';
+    else if (wn8 < 1899) return 'rgb(76,118,46)';
+    else if (wn8 < 2349) return 'rgb(74,146,183)';
+    else if (wn8 < 2899) return 'rgb(131,87,157)';
+    else return 'rgb(90,49,117)';
+}

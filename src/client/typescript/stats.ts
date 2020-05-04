@@ -1,7 +1,8 @@
 import '../scss/global';
-import { computeWN8, wn8 } from './wn8';
+import { computeWN8, wn8, getColor } from './wn8';
+import { $ } from './extjs';
 
-const main = document.querySelector('main');
+const main = document.querySelector('#main');
 //@ts-ignore
 const { user_id }: { user_id: string } = window.data;
 const load = async () => {
@@ -17,7 +18,11 @@ const load = async () => {
 
     document.title = player.nickname;
 
-    const player_global_info = main.appendChild(document.createElement('div'));
+    const player_global_info = $(main).child('div').addClass('section');
+    player_global_info
+        .child('div')
+        .addClass('header')
+        .text(`information about the player ${player.nickname}`);
 
     const getTanksStats: wot_tanks_stats_request = await (
         await fetch(`api/player/${user_id}/tanks_stats`)
@@ -29,7 +34,22 @@ const load = async () => {
 
     const tanks_stats = getTanksStats.data[user_id];
 
-    const table = main.appendChild(document.createElement('table'));
+    let player_tanks = $(main).child('div').addClass('section');
+    player_tanks
+        .child('div')
+        .addClass('header')
+        .text(`Tanks [${player.nickname}]`);
+    player_tanks = player_tanks.child('div').addClass('content');
+
+    const table = player_tanks.child('table');
+
+    table.html(`
+        <tr>
+            <th>Image</th>
+            <th>Tank</th>
+            <th>WN8</th>
+        </tr>
+    `);
 
     const global = {
         IDNum: 0,
@@ -44,7 +64,7 @@ const load = async () => {
         .sort((a, b) => b.all.battles - a.all.battles)
         .forEach((t) => {
             const tank = { ...t, ...tanks[t.tank_id] };
-            const tank_div = table.appendChild(document.createElement('tr'));
+            const tank_div = table.child('tr');
             const tank_expected = expected[tank.tank_id];
 
             const wn8 = computeWN8(
@@ -66,18 +86,18 @@ const load = async () => {
             global.expWinRate +=
                 0.01 * tank.all.battles * tank_expected.expWinRate;
 
-            tank_div.innerHTML = `
-            <td>${tank.name}</td>
+            tank_div.html(`
             <td>
                 <img src="${tank.images.small_icon.replace(
                     'http://',
                     'https://'
                 )}">
             </td>
-            <td>
+            <td>${tank.name}</td>
+            <td style="background: ${getColor(wn8)};color:white;">
                 ${wn8.toFixed(0)}
             </td>
-        `;
+        `);
         });
     const all = player.statistics.all;
     const r_damage = all.damage_dealt / global.expDamage;
@@ -88,11 +108,15 @@ const load = async () => {
 
     const global_wn8 = wn8(r_damage, r_spot, r_frags, r_def, r_winrate);
 
-    player_global_info.innerHTML = `
-    <h2>${player.nickname} [${global_wn8.toFixed(0)}]</h2>
+    player_global_info.child('div').addClass('content').html(`
+    <span style="color:${getColor(
+        global_wn8
+    )};font-size: 25px; margin-bottom:15px;display: block;">${global_wn8.toFixed(
+        0
+    )}</span>
     Last battle : ${new Date(player.last_battle_time * 1000).toLocaleString()} 
     <br />
     Last seen : ${new Date(player.logout_at * 1000).toLocaleString()} 
-    `;
+    `);
 };
 load();

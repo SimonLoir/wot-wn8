@@ -1,5 +1,149 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap');
+$header_height: 85px;
+$site-color:rgb(42, 51, 53);
+$border-color: #E4E8F0;
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+    font-weight: 300;
+    color: $site-color;
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 60px;
+    text-align: center;
+    font-size: 20px;
+}
+
+header {
+    position: relative;
+    border-bottom: 1px solid $border-color;
+    line-height: 60px;
+
+    #app-menu,
+    #app-title {
+        vertical-align: middle;
+    }
+
+    #app-menu {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        border-right: 1px solid $border-color;
+        user-select: none;
+
+        .icon {
+            i {
+                cursor: pointer;
+            }
+        }
+    }
+
+    #app-title {
+        font-weight: 500;
+        padding-left: 25px;
+    }
+}
+
+
+#app-left-bar {
+    user-select: none;
+    width: 60px;
+    position: fixed;
+    top: 61px;
+    bottom: 0;
+    left: 0;
+    border-right: 1px solid $border-color;
+
+    .item {
+        line-height: 60px;
+
+        font-weight: 500;
+        color: gray;
+        cursor: pointer;
+
+        border-bottom: 1px solid $border-color;
+
+        span {
+            display: none;
+        }
+
+    }
+}
+
+main {
+    position: absolute;
+    top: 62px;
+    left: 61px;
+    bottom: 0;
+    right: 0;
+    background: rgb(244, 244, 244);
+    padding: 25px;
+    overflow: auto;
+}
+
+.expended {
+    header {
+        #app-menu {
+            display: inline-block;
+            width: 300px;
+        }
+    }
+
+    #app-left-bar {
+        width: 300px;
+
+        .item span {
+            display: inline-block;
+        }
+    }
+
+    main {
+        left: 301px;
+        z-index: -1;
+    }
+}
+
+.section {
+    border: 1px solid #f1f1f1;
+    padding: 25px;
+    background: white;
+    border-radius: 8px;
+
+    .header {
+        color: #8798ad;
+        text-transform: uppercase;
+        font-size: 12px;
+        //font-weight: 500;
+    }
+
+    .content {
+        padding-top: 25px;
+
+    }
+
+    &+.section {
+        margin-top: 25px;
+    }
+}
+
+table {
+    font-family: "Roboto", sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #eee;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
 }
