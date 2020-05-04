@@ -57,7 +57,7 @@ API.get(
 API.get(
     '/update-tanks',
     asyn(async (req, res) => {
-        const data = {};
+        const data = await WOTEU.tanks.getAll();
         fs.writeFileSync('data/tanks.json', JSON.stringify(data));
 
         res.send('done');

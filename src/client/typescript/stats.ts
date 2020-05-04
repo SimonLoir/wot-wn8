@@ -48,6 +48,8 @@ const load = async () => {
             <th>Image</th>
             <th>Tank</th>
             <th>Win</th>
+            <th>Dmg</th>
+            <th>XP</th>
             <th>Battles</th>
             <th>WN8</th>
         </tr>
@@ -100,6 +102,10 @@ const load = async () => {
                 (100 * tank.all.wins) /
                 (tank.all.wins + tank.all.draws + tank.all.losses)
             ).toFixed(2)} %</td>
+
+
+            <td>${(tank.all.damage_dealt / tank.all.battles).toFixed(0)}</td>
+            <td>${tank.all.battle_avg_xp}</td>
             <td>${tank.all.battles}</td>
             <td style="background: ${getColor(wn8)};color:white;">
                 ${wn8.toFixed(0)}
