@@ -41,20 +41,6 @@ const load = async () => {
         .text(`Tanks [${player.nickname}]`);
     player_tanks = player_tanks.child('div').addClass('content');
 
-    const table = player_tanks.child('table');
-
-    table.html(`
-        <tr>
-            <th>Image</th>
-            <th>Tank</th>
-            <th>Win</th>
-            <th>Avg dmg</th>
-            <th>Avg XP</th>
-            <th>Battles</th>
-            <th>WN8</th>
-        </tr>
-    `);
-
     const global = {
         IDNum: 0,
         expDef: 0,
@@ -64,14 +50,27 @@ const load = async () => {
         expWinRate: 0,
     };
 
-    tanks_stats
+    let all_tanks_data = tanks_stats
         .sort((a, b) => b.all.battles - a.all.battles)
-        .forEach((t) => {
-            const tank = { ...t, ...tanks[t.tank_id] };
-            const tank_div = table.child('tr');
+        .map((t) => {
+            let tank = {
+                ...t,
+                ...tanks[t.tank_id],
+                wn8: 0,
+                battles: 0,
+                win: 0,
+                avgSpot: 0,
+            };
             const tank_expected = expected[tank.tank_id];
 
-            const wn8 = computeWN8(
+            const battles = tank.all.battles;
+            tank.battles = battles;
+            tank.win =
+                (100 * tank.all.wins) /
+                (tank.all.wins + tank.all.draws + tank.all.losses);
+            tank.avgSpot = tank.all.spotted / battles;
+
+            tank.wn8 = computeWN8(
                 tank.all.damage_dealt,
                 tank.all.spotted,
                 tank.all.frags,
@@ -80,38 +79,101 @@ const load = async () => {
                 tank.all.draws,
                 tank.all.losses,
                 tank_expected,
-                tank.all.battles
+                battles
             );
 
-            global.expDamage += tank.all.battles * tank_expected.expDamage;
-            global.expDef += tank.all.battles * tank_expected.expDef;
-            global.expFrag += tank.all.battles * tank_expected.expFrag;
-            global.expSpot += tank.all.battles * tank_expected.expSpot;
-            global.expWinRate +=
-                0.01 * tank.all.battles * tank_expected.expWinRate;
+            global.expDamage += battles * tank_expected.expDamage;
+            global.expDef += battles * tank_expected.expDef;
+            global.expFrag += battles * tank_expected.expFrag;
+            global.expSpot += battles * tank_expected.expSpot;
+            global.expWinRate += 0.01 * battles * tank_expected.expWinRate;
 
+            return tank;
+        });
+
+    let e: number;
+    let last = '';
+    const sort = (key: any) => {
+        if (last == key + '_asc') {
+            e = 1;
+            last = key + '_desc';
+        } else {
+            e = -1;
+            last = key + '_asc';
+        }
+
+        all_tanks_data = all_tanks_data.sort((a, b) => {
+            //@ts-ignore
+            const _a = a[key];
+            //@ts-ignore
+            const _b = b[key];
+            if (_a < _b) return -1 * e;
+            else if (_a > _b) return 1 * e;
+            return 0 * e;
+        });
+        render();
+    };
+
+    const render = () => {
+        player_tanks.html('');
+        const table = player_tanks.child('table');
+
+        const thead = table.child('tr');
+        thead
+            .child('th')
+            .click(() => sort('name'))
+            .text('Tank');
+        thead
+            .child('th')
+            .click(() => sort('win'))
+            .text('Win');
+        thead
+            .child('th')
+            .click(() => {})
+            .text('Avg Dmg');
+        thead
+            .child('th')
+            .click(() => {})
+            .text('Avg XP');
+        thead
+            .child('th')
+            .click(() => sort('avgSpot'))
+            .text('Avg Spot');
+        thead
+            .child('th')
+            .click(() => sort('battles'))
+            .text('Battles');
+        thead
+            .child('th')
+            .click(() => sort('wn8'))
+            .text('WN8');
+
+        all_tanks_data.forEach((tank) => {
+            const tank_div = table.child('tr');
+            const battles = tank.battles;
             tank_div.html(`
             <td>
                 <img src="${tank.images.small_icon.replace(
                     'http://',
                     'https://'
-                )}">
-            </td>
-            <td>${tank.name}</td>
-            <td>${(
-                (100 * tank.all.wins) /
-                (tank.all.wins + tank.all.draws + tank.all.losses)
-            ).toFixed(2)} %</td>
+                )}" style="vertical-align: middle;">
+                <span style="vertical-align: middle;">${tank.name}</span>
+                </td>
+            <td>${tank.win.toFixed(2)} %</td>
 
 
-            <td>${(tank.all.damage_dealt / tank.all.battles).toFixed(0)}</td>
+            <td>${(tank.all.damage_dealt / battles).toFixed(0)}</td>
             <td>${tank.all.battle_avg_xp}</td>
-            <td>${tank.all.battles}</td>
-            <td style="background: ${getColor(wn8)};color:white;">
-                ${wn8.toFixed(0)}
+            <td>${tank.avgSpot.toFixed(2)}</td>
+            <td>${battles}</td>
+            <td style="background: ${getColor(tank.wn8)};color:white;">
+                ${tank.wn8.toFixed(0)}
             </td>
         `);
         });
+    };
+    render();
+
     const all = player.statistics.all;
     const r_damage = all.damage_dealt / global.expDamage;
     const r_spot = all.spotted / global.expSpot;
