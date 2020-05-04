@@ -54,5 +54,15 @@ API.get(
     })
 );
 
+API.get(
+    '/update-tanks',
+    asyn(async (req, res) => {
+        const data = {};
+        fs.writeFileSync('data/tanks.json', JSON.stringify(data));
+
+        res.send('done');
+    })
+);
+
 API.use('/tanks', express.static('data/tanks.json'));
 API.use('/expected', express.static('data/exp.json'));
