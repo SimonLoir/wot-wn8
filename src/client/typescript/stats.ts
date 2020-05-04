@@ -6,8 +6,6 @@ const main = document.querySelector('#main');
 //@ts-ignore
 const { user_id }: { user_id: string } = window.data;
 const load = async () => {
-    // Get list of available tanks
-    const tanks: wot_available_tanks = await (await fetch(`api/tanks`)).json();
     // Get information about the user
     const get_player_info: wot_player_info = await (
         await fetch(`api/player/${user_id}/info`)
@@ -18,19 +16,22 @@ const load = async () => {
 
     document.title = player.nickname;
 
+    //Creates a section for the global player stats
     const player_global_info = $(main).child('div').addClass('section');
     player_global_info
         .child('div')
         .addClass('header')
         .text(`information about the player ${player.nickname}`);
 
-    const getTanksStats: wot_tanks_stats_request = await (
-        await fetch(`api/player/${user_id}/tanks_stats`)
-    ).json();
-
-    const expected: expected_values = await (
-        await fetch(`api/expected`)
-    ).json();
+    const [getTanksStats, expected, tanks]: [
+        wot_tanks_stats_request,
+        expected_values,
+        wot_available_tanks
+    ] = await Promise.all([
+        (await fetch(`api/player/${user_id}/tanks_stats`)).json(),
+        (await fetch(`api/expected`)).json(),
+        (await fetch(`api/tanks`)).json(),
+    ]);
 
     const tanks_stats = getTanksStats.data[user_id];
 
