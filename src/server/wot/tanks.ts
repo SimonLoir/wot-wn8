@@ -8,7 +8,7 @@ export default class WOTAPITanks extends WOTAPI_default {
     public async getAll(): Promise<wot_available_tanks> {
         return (
             await this.call('encyclopedia/vehicles', {
-                fields: 'is_premium, images.small_icon, is_premium, name',
+                fields: 'is_premium, images.small_icon, name, tier',
             })
         ).data;
     }

@@ -5,5 +5,7 @@ declare interface wot_available_tanks {
         };
         name: string;
         tank_id: number;
+        tier: number;
+        is_premium: boolean;
     };
 }

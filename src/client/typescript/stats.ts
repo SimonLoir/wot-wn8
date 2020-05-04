@@ -71,6 +71,7 @@ const load = async () => {
                 (tank.all.wins + tank.all.draws + tank.all.losses);
             tank.avgSpot = tank.all.spotted / battles;
 
+            // Get the wn8 for the tank
             tank.wn8 = computeWN8(
                 tank.all.damage_dealt,
                 tank.all.spotted,
@@ -83,6 +84,9 @@ const load = async () => {
                 battles
             );
 
+            /**
+             * These values are used to compute the global wn8 of a player
+             */
             global.expDamage += battles * tank_expected.expDamage;
             global.expDef += battles * tank_expected.expDef;
             global.expFrag += battles * tank_expected.expFrag;
@@ -122,6 +126,10 @@ const load = async () => {
         const thead = table.child('tr');
         thead
             .child('th')
+            .click(() => sort('tier'))
+            .text('Tier');
+        thead
+            .child('th')
             .click(() => sort('name'))
             .text('Tank');
         thead
@@ -154,11 +162,16 @@ const load = async () => {
             const battles = tank.battles;
             tank_div.html(`
             <td>
+                ${tank.tier}
+            </td>
+            <td>
                 <img src="${tank.images.small_icon.replace(
                     'http://',
                     'https://'
                 )}" style="vertical-align: middle;">
-                <span style="vertical-align: middle;">${tank.name}</span>
+                <span style="vertical-align: middle;">${tank.name} ${
+                tank.is_premium ? '&#9733;' : ''
+            }</span>
                 </td>
             <td>${tank.win.toFixed(2)} %</td>
 
