@@ -1,4 +1,5 @@
 import '../scss/global';
+import menu from './menu';
 const btn = document.getElementById('search');
 const search_bar: HTMLInputElement = document.querySelector('input#search_bar');
 const main = document.querySelector('#main');
@@ -17,3 +18,5 @@ btn.addEventListener('click', async (e) => {
     });
     if (wot_player_search.data.length == 1) main.querySelector('a').click();
 });
+
+menu();

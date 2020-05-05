@@ -1,6 +1,7 @@
 import '../scss/global';
 import { computeWN8, wn8, getColor } from './wn8';
 import { $ } from './extjs';
+import menu from './menu';
 
 const main = document.querySelector('#main');
 //@ts-ignore
@@ -208,4 +209,5 @@ const load = async () => {
     Last seen : ${new Date(player.logout_at * 1000).toLocaleString()} 
     `);
 };
+menu();
 load();
