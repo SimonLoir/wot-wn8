@@ -14,20 +14,6 @@ API.get(
 );
 
 API.get(
-    '/player/:player_id/info',
-    asyn(async (req, res) => {
-        res.json(await WOTEU.accounts.info(req.params.player_id));
-    })
-);
-
-API.get(
-    '/player/:player_id/tanks_stats',
-    asyn(async (req, res) => {
-        res.json(await WOTEU.tanks.stats(req.params.player_id));
-    })
-);
-
-API.get(
     '/update-expected',
     asyn(async (req, res) => {
         const values: {
@@ -85,6 +71,7 @@ API.get(
         const data = player_data.data[player];
         let tanks_stats: any = [];
 
+        // We check if an existing snapshot exists for the last_updated value
         const snapshot = (
             await database.query(
                 'SELECT * FROM snapshots WHERE pid = ? AND time = ?',
@@ -92,6 +79,7 @@ API.get(
             )
         )[0];
 
+        // If there is a snapshot, no api call, we deliver the content of the database
         if (snapshot) {
             res.json({
                 player: data,
@@ -103,17 +91,20 @@ API.get(
                 ).map((data: any) => JSON.parse(data.data)),
             });
         } else {
+            // We get the stats from the WG API
             const all_tanks_request = await WOTEU.tanks.stats(player);
             const all_tanks = all_tanks_request.data[player].map((tank) => {
                 return { tank_id: tank.tank_id, ...tank.all };
             });
-            tanks_stats = all_tanks;
 
+            // We send the data to the client
             res.json({
                 player: data,
-                tanks_stats,
+                tanks_stats: all_tanks,
             });
 
+            // We continue as a background work
+            // Indexing the snapshot
             const id: number = (
                 await database.query(
                     `INSERT INTO snapshots VALUES (NULL, ?, ?)`,
@@ -121,6 +112,7 @@ API.get(
                 )
             ).insertId;
 
+            // Sending values in the database
             all_tanks.forEach((tank) =>
                 database.query('INSERT INTO snapshots_data VALUES (?, ?, ?)', [
                     id.toString(),
@@ -128,7 +120,8 @@ API.get(
                     JSON.stringify(tank),
                 ])
             );
-            console.log('done');
+
+            // Server is done with the request
         }
     })
 );
