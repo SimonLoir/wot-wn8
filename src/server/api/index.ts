@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { asyn } from '../errors';
 import WOTAPI from '../wot';
 import fetch from 'node-fetch';
+import { database } from '../database';
 export const API = express.Router();
 const WOTEU = new WOTAPI(process.env.APPID, 'eu');
 API.get(
@@ -76,16 +77,58 @@ API.get(
 
         // Getting user data
         const player_data: wot_player_info = await WOTEU.accounts.info(player);
-        console.log(player_data.data);
 
         // Checking that the user exists
         if (!player_data?.data[player])
             throw 'Fatal error while loading the user';
 
         const data = player_data.data[player];
+        let tanks_stats: any = [];
 
-        res.json({
-            player: data,
-        });
+        const snapshot = (
+            await database.query(
+                'SELECT * FROM snapshots WHERE pid = ? AND time = ?',
+                [player, data.updated_at.toString()]
+            )
+        )[0];
+
+        if (snapshot) {
+            res.json({
+                player: data,
+                tanks_stats: (
+                    await database.query(
+                        'SELECT * FROM snapshots_data WHERE id = ?',
+                        [snapshot.id]
+                    )
+                ).map((data: any) => JSON.parse(data.data)),
+            });
+        } else {
+            const all_tanks_request = await WOTEU.tanks.stats(player);
+            const all_tanks = all_tanks_request.data[player].map((tank) => {
+                return { tank_id: tank.tank_id, ...tank.all };
+            });
+            tanks_stats = all_tanks;
+
+            res.json({
+                player: data,
+                tanks_stats,
+            });
+
+            const id: number = (
+                await database.query(
+                    `INSERT INTO snapshots VALUES (NULL, ?, ?)`,
+                    [player, data.updated_at.toString()]
+                )
+            ).insertId;
+
+            all_tanks.forEach((tank) =>
+                database.query('INSERT INTO snapshots_data VALUES (?, ?, ?)', [
+                    id.toString(),
+                    tank.tank_id,
+                    JSON.stringify(tank),
+                ])
+            );
+            console.log('done');
+        }
     })
 );
