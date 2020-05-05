@@ -133,9 +133,9 @@ fetch(`api/player/${pid}/data`)
         };
 
         tanks.forEach((tank) => {
-            if (tank.data.name) tank.name = tank.data.name;
-            if (tank.data.tier) tank.tier = tank.data.tier;
-            if (tank.data.is_premium) tank.premium = tank.data.is_premium;
+            if (tank?.data?.name) tank.name = tank.data.name;
+            if (tank?.data?.tier) tank.tier = tank.data.tier;
+            if (tank?.data?.is_premium) tank.premium = tank.data.is_premium;
         });
 
         const render = () => {
