@@ -3,7 +3,7 @@ export default function errorMessage(
     message: string,
     response: express.Response
 ) {
-    response.json({
+    response.status(500).json({
         type: 'error',
         message,
     });
