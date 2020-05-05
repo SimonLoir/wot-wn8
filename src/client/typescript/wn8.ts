@@ -1,20 +1,18 @@
 export function computeWN8(
-    damage_dealt: number,
-    spotted: number,
-    frags: number,
-    dropped_capture_points: number,
-    wins: number,
-    draws: number,
-    losses: number,
-    expected: any,
-    battles: number
+    avg_damages: number,
+    avg_spot: number,
+    avg_frag: number,
+    avg_def: number,
+    avg_win_rate: number,
+    expected: {
+        IDNum: number;
+        expDef: number;
+        expFrag: number;
+        expSpot: number;
+        expDamage: number;
+        expWinRate: number;
+    }
 ) {
-    const avg_damages = damage_dealt / battles;
-    const avg_spot = spotted / battles;
-    const avg_frag = frags / battles;
-    const avg_def = dropped_capture_points / battles;
-    const avg_win_rate = (100 * wins) / (wins + draws + losses);
-
     const r_damages = avg_damages / expected.expDamage;
     const r_spot = avg_spot / expected.expSpot;
     const r_frag = avg_frag / expected.expFrag;
