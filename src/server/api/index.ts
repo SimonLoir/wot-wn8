@@ -66,3 +66,26 @@ API.get(
 
 API.use('/tanks', express.static('data/tanks.json'));
 API.use('/expected', express.static('data/exp.json'));
+
+API.get(
+    '/player/:player_id/data',
+    asyn(async (req, res) => {
+        // Getting the player ID from the request
+        const player = req.params.player_id;
+        console.log(`Player data asked for ${player}`);
+
+        // Getting user data
+        const player_data: wot_player_info = await WOTEU.accounts.info(player);
+        console.log(player_data.data);
+
+        // Checking that the user exists
+        if (!player_data?.data[player])
+            throw 'Fatal error while loading the user';
+
+        const data = player_data.data[player];
+
+        res.json({
+            player: data,
+        });
+    })
+);
