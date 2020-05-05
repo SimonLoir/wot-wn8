@@ -11,11 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Listage de la structure de la base pour wn8master
-CREATE DATABASE IF NOT EXISTS `wn8master` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
-USE `wn8master`;
-
 -- Listage de la structure de la table wn8master. snapshots
 CREATE TABLE IF NOT EXISTS `snapshots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -24,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `snapshots` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table wn8master.snapshots : ~0 rows (environ)
+-- Listage des données de la table wn8master.snapshots : ~4 rows (environ)
 /*!40000 ALTER TABLE `snapshots` DISABLE KEYS */;
 INSERT INTO `snapshots` (`id`, `pid`, `time`) VALUES
 	(3, 529721740, 1588685421),
@@ -42,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `snapshots_data` (
   CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `snapshots` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table wn8master.snapshots_data : ~0 rows (environ)
+-- Listage des données de la table wn8master.snapshots_data : ~1 175 rows (environ)
 /*!40000 ALTER TABLE `snapshots_data` DISABLE KEYS */;
 INSERT INTO `snapshots_data` (`id`, `tank_id`, `data`) VALUES
 	(3, 2849, '{"xp": 4171, "hits": 32, "wins": 4, "draws": 0, "frags": 11, "shots": 53, "losses": 6, "battles": 10, "spotted": 8, "tank_id": 2849, "piercings": 26, "stun_number": 0, "damage_dealt": 8281, "battle_avg_xp": 417, "hits_percents": 60, "capture_points": 0, "explosion_hits": 0, "tanking_factor": 0.23, "damage_received": 14795, "survived_battles": 1, "avg_damage_blocked": 333, "piercings_received": 43, "direct_hits_received": 54, "stun_assisted_damage": 0, "dropped_capture_points": 0, "explosion_hits_received": 3, "battles_on_stunning_vehicles": 0, "no_damage_direct_hits_received": 11}'),
