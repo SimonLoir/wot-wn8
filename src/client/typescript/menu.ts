@@ -15,6 +15,6 @@ export default function menu() {
     });
 
     $('#go-home').click(() => {
-        window.location.href = './';
+        window.location.href = '/';
     });
 }

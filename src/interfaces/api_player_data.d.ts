@@ -15,4 +15,5 @@ declare interface api_player_data {
 
 declare interface api_tanks_stats extends wot_stats {
     tank_id: string;
+    time?: number;
 }

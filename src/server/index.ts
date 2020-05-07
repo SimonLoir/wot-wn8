@@ -29,6 +29,10 @@ app.get(APP_BASE_URL + ':user_id', (req, res) => {
     res.render('stats', { params: req.params });
 });
 
+app.get(APP_BASE_URL + ':user_id/:tank_id', (req, res) => {
+    res.render('tanks', { params: req.params });
+});
+
 app.listen(PORT, () =>
     console.log(`Server started at ${new Date().toString()}`)
 );

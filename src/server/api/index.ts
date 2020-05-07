@@ -132,12 +132,34 @@ API.get(
         res.json(
             await database.query(
                 `SELECT * FROM snapshots_data s WHERE s.id IN (
-                    SELECT MAX(id) AS id
-                    FROM snapshots 
-                    WHERE pid = ?
-                    GROUP BY \`date\`)`,
+                SELECT MAX(id) AS id
+                FROM snapshots 
+                WHERE pid = ?
+                GROUP BY \`date\`)`,
                 [req.params.player_id]
             )
+        );
+    })
+);
+
+API.get(
+    '/player/:player_id/tank/:tank_id/snapshots',
+    asyn(async (req, res) => {
+        res.json(
+            (
+                await database.query(
+                    `SELECT * FROM snapshots_data sd, snapshots s 
+                    WHERE 
+                    sd.id = s.id
+                    AND s.pid = ?
+                    AND tank_id = ?`,
+                    [req.params.player_id, req.params.tank_id]
+                )
+            ).map((e: any) => {
+                let d = JSON.parse(e.data);
+                d.time = e.time;
+                return d;
+            })
         );
     })
 );

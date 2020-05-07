@@ -163,7 +163,9 @@ fetch(`api/player/${pid}/data`)
             tanks.forEach((tank) => {
                 const row = tanks_info.child('tr');
                 row.child('td').text(tank.tier.toString());
-                row.child('td').html(`
+                row.child('td')
+                    .html(
+                        `
                 <img src="
                 ${
                     tank.name != ''
@@ -175,9 +177,13 @@ fetch(`api/player/${pid}/data`)
                 }
                 " style="vertical-align: middle;">
                 <span style="vertical-align: middle;">${tank.name} ${
-                    tank.premium ? '&#9733;' : ''
-                }</span>
-                `);
+                            tank.premium ? '&#9733;' : ''
+                        }</span>
+                `
+                    )
+                    .click(() => {
+                        window.location.href = pid + '/' + tank.tank_id;
+                    });
                 row.child('td').text(tank.avg_win_rate.toFixed(2));
                 row.child('td').text(tank.avg_damages.toFixed(0));
                 row.child('td').text(tank.avg_xp.toFixed(0));

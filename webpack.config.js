@@ -7,6 +7,7 @@ module.exports = [
         entry: {
             site: './src/client/typescript/index.ts',
             stats: './src/client/typescript/stats.ts',
+            tanks: './src/client/typescript/tanks.ts',
         },
         node: false,
         module: {
