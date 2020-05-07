@@ -103,23 +103,32 @@ API.get(
                 tanks_stats: all_tanks,
             });
 
-            // We continue as a background work
-            // Indexing the snapshot
-            const id: number = (
-                await database.query(
-                    `INSERT INTO snapshots VALUES (NULL, ?, ?)`,
-                    [player, data.updated_at.toString()]
-                )
-            ).insertId;
+            try {
+                // We continue as a background work
+                // Indexing the snapshot
+                const id: number = (
+                    await database.query(
+                        `INSERT INTO snapshots VALUES (NULL, ?, ?, ?)`,
+                        [
+                            player,
+                            data.updated_at.toString(),
+                            new Date(data.updated_at * 1000)
+                                .toISOString()
+                                .split('T')[0],
+                        ]
+                    )
+                ).insertId;
 
-            // Sending values in the database
-            all_tanks.forEach((tank) =>
-                database.query('INSERT INTO snapshots_data VALUES (?, ?, ?)', [
-                    id.toString(),
-                    tank.tank_id,
-                    JSON.stringify(tank),
-                ])
-            );
+                // Sending values in the database
+                all_tanks.forEach((tank) =>
+                    database.query(
+                        'INSERT INTO snapshots_data VALUES (?, ?, ?)',
+                        [id.toString(), tank.tank_id, JSON.stringify(tank)]
+                    )
+                );
+            } catch (error) {
+                console.log(error);
+            }
 
             // Server is done with the request
         }
