@@ -125,3 +125,19 @@ API.get(
         }
     })
 );
+
+API.get(
+    '/player/:player_id/snapshots',
+    asyn(async (req, res) => {
+        res.json(
+            await database.query(
+                `SELECT * FROM snapshots_data s WHERE s.id IN (
+                    SELECT MAX(id) AS id
+                    FROM snapshots 
+                    WHERE pid = ?
+                    GROUP BY \`date\`)`,
+                [req.params.player_id]
+            )
+        );
+    })
+);
