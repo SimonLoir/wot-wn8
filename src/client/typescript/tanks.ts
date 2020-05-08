@@ -24,10 +24,14 @@ fetch(`../api/player/${pid}/tank/${tid}/snapshots`)
         });
 
         const damages_canvas: HTMLCanvasElement = section('average damages')
-            .content.child('canvas')
+            .content.addClass('data-graph')
+            .child('canvas')
             .get(0);
 
-        new Chart(damages_canvas, {
+        damages_canvas.style.height = '100%';
+        damages_canvas.style.width = '100%';
+
+        const dmg_chart = new Chart(damages_canvas, {
             type: 'line',
             data: {
                 labels: dates,
@@ -40,14 +44,21 @@ fetch(`../api/player/${pid}/tank/${tid}/snapshots`)
                     },
                 ],
             },
-            options: {},
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
         });
 
         const avg_kills: HTMLCanvasElement = section('average kills')
-            .content.child('canvas')
+            .content.addClass('data-graph')
+            .child('canvas')
             .get(0);
 
-        new Chart(avg_kills, {
+        avg_kills.style.height = '100%';
+        avg_kills.style.width = '100%';
+
+        const avg_kills_chart = new Chart(avg_kills, {
             type: 'line',
             data: {
                 labels: dates,
@@ -60,6 +71,15 @@ fetch(`../api/player/${pid}/tank/${tid}/snapshots`)
                     },
                 ],
             },
-            options: {},
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        });
+
+        window.addEventListener('resize', () => {
+            console.log('e');
+            dmg_chart.update();
+            avg_kills_chart.update();
         });
     });
