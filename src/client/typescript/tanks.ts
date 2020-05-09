@@ -31,24 +31,7 @@ fetch(`../api/player/${pid}/tank/${tid}/snapshots`)
         damages_canvas.style.height = '100%';
         damages_canvas.style.width = '100%';
 
-        const dmg_chart = new Chart(damages_canvas, {
-            type: 'line',
-            data: {
-                labels: dates,
-
-                datasets: [
-                    {
-                        data: damages,
-                        label: 'damages',
-                        lineTension: 0,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-            },
-        });
+        const dmg_chart = chart(damages_canvas, damages, dates, 'AVG Damages');
 
         const avg_kills: HTMLCanvasElement = section('average kills')
             .content.addClass('data-graph')
@@ -58,28 +41,36 @@ fetch(`../api/player/${pid}/tank/${tid}/snapshots`)
         avg_kills.style.height = '100%';
         avg_kills.style.width = '100%';
 
-        const avg_kills_chart = new Chart(avg_kills, {
-            type: 'line',
-            data: {
-                labels: dates,
-
-                datasets: [
-                    {
-                        data: kills,
-                        label: 'Kills',
-                        lineTension: 0,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-            },
-        });
-
+        const avg_kills_chart = chart(avg_kills, kills, dates, 'AVG Kills');
         window.addEventListener('resize', () => {
             console.log('e');
             dmg_chart.update();
             avg_kills_chart.update();
         });
     });
+
+function chart(
+    canvas: HTMLCanvasElement,
+    data: number[],
+    dates: any[],
+    label: string
+) {
+    return new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: dates,
+
+            datasets: [
+                {
+                    data,
+                    label,
+                    lineTension: 0,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        },
+    });
+}

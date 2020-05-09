@@ -126,13 +126,22 @@ main {
 
     }
 
-    &+.section {
+    &+.section,
+    &+.ad {
         margin-top: 25px;
     }
 
     .data-graph {
         height: 50vh;
         position: relative;
+    }
+}
+
+.ad {
+
+    &+.section,
+    &+.ad {
+        margin-top: 25px;
     }
 }
 

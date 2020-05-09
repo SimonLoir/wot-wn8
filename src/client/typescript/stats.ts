@@ -2,7 +2,8 @@ import '../scss/global';
 import menu from './menu';
 import section from './section';
 import { computeWN8, wn8, getColor } from './wn8';
-import { ExtJsObject } from './extjs';
+import { ExtJsObject, $ } from './extjs';
+import { createAd } from './ads';
 
 //@ts-ignore
 const pid: string = window.data.user_id;
@@ -90,6 +91,8 @@ fetch(`api/player/${pid}/data`)
         const player_info = section(
             'Informations about ' + data.player.nickname
         );
+
+        createAd($('main'));
 
         player_info.content.html(`
         <span 
@@ -181,6 +184,7 @@ fetch(`api/player/${pid}/data`)
                         }</span>
                 `
                     )
+                    .css('cursor', 'pointer')
                     .click(() => {
                         window.location.href = pid + '/' + tank.tank_id;
                     });
