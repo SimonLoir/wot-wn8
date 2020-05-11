@@ -4,7 +4,7 @@ import section from './section';
 import { computeWN8, wn8, getColor } from './wn8';
 import { ExtJsObject, $ } from './extjs';
 import { createAd } from './ads';
-
+import { getCookie, setCookie } from './cookies';
 //@ts-ignore
 const pid: string = window.data.user_id;
 const loading = section('Loading...');
@@ -110,27 +110,34 @@ fetch(`api/player/${pid}/data`)
             'Informations about ' + data.player.nickname + ' tanks'
         ).content.child('table');
 
-        let last = '';
-        let e = 0;
+        let last = getCookie('last');
+        let e = 1;
+        const array_sort = (key: string) => {
+            tanks = tanks.sort((a, b) => {
+                //@ts-ignore
+                const _a = a[key];
+                //@ts-ignore
+                const _b = b[key];
+                if (_a < _b) return -1 * e;
+                else if (_a > _b) return 1 * e;
+                return 0 * e;
+            });
+        };
+        const manage_key = (key: string) => {
+            if (last == key + '.asc') {
+                e = 1;
+                last = key + '.desc';
+                setCookie('last', key + '.asc');
+            } else {
+                e = -1;
+                setCookie('last', key + '.desc');
+                last = key + '.asc';
+            }
+        };
         const sort = (x: ExtJsObject, key: any) => {
             x.click(() => {
-                if (last == key + '_asc') {
-                    e = 1;
-                    last = key + '_desc';
-                } else {
-                    e = -1;
-                    last = key + '_asc';
-                }
-
-                tanks = tanks.sort((a, b) => {
-                    //@ts-ignore
-                    const _a = a[key];
-                    //@ts-ignore
-                    const _b = b[key];
-                    if (_a < _b) return -1 * e;
-                    else if (_a > _b) return 1 * e;
-                    return 0 * e;
-                });
+                manage_key(key);
+                array_sort(key);
                 render();
             });
         };
@@ -199,5 +206,9 @@ fetch(`api/player/${pid}/data`)
                     .css('color', 'white');
             });
         };
+        let key = last.split('.')[0];
+        key = key != '' ? key : 'wn8';
+        manage_key(key);
+        array_sort(key);
         render();
     });
