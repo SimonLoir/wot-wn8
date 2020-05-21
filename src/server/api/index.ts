@@ -3,13 +3,34 @@ import * as fs from 'fs';
 import { asyn } from '../errors';
 import WOTAPI from '../wot';
 import fetch from 'node-fetch';
-import { database } from '../database';
+import { database, db } from '../database';
 export const API = express.Router();
 const WOTEU = new WOTAPI(process.env.APPID, 'eu');
 API.get(
     '/player/:name',
     asyn(async (req, res) => {
-        res.json(await WOTEU.accounts.search(req.params.name));
+        const result = await WOTEU.accounts.search(req.params.name);
+        res.json(result);
+        result.data.forEach(async (player) => {
+            const { account_id, nickname } = player;
+            await database.query(
+                'INSERT INTO users VALUES (?, ?) ON DUPLICATE KEY UPDATE user_name = ?',
+                [account_id.toString(), nickname, nickname]
+            );
+        });
+    })
+);
+
+API.get(
+    '/player/:name/search',
+    asyn(async (req, res) => {
+        if (req.params.name.length < 3)
+            throw 'Too few chars, could not perform the request';
+        res.json(
+            await database.query('SELECT * FROM users WHERE user_name LIKE ?', [
+                '%' + req.params.name + '%',
+            ])
+        );
     })
 );
 
@@ -140,11 +161,14 @@ API.get(
     asyn(async (req, res) => {
         res.json(
             await database.query(
-                `SELECT * FROM snapshots_data s WHERE s.id IN (
+                `SELECT * FROM 
+                snapshots_data s, snapshots_user_data sd
+                WHERE s.id IN (
                 SELECT MAX(id) AS id
                 FROM snapshots 
                 WHERE pid = ?
-                GROUP BY \`date\`)`,
+                GROUP BY \`date\`)
+                AND sd.id = s.id`,
                 [req.params.player_id]
             )
         );
