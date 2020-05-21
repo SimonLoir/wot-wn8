@@ -12,7 +12,7 @@ const render = (data: player_search_result_item[]) => {
         <a href="${e.user_id}">${e.user_name}</a>
         `;
     });
-    if (data.length == 1) main.querySelector('a').click();
+    //if (data.length == 1) main.querySelector('a').click();
 };
 
 search_bar.addEventListener('keypress', function (e) {
