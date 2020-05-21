@@ -1,11 +1,12 @@
 //@ts-check
 const { exec } = require('child_process');
-const { zip } = require('zip-a-folder');
+const archiver = require('archiver');
 const fs = require('fs');
 const path = require('path');
 const build_dir = __dirname + '/builds';
 const tmp = build_dir + '/tmp';
 const mod_dir = __dirname + '/wn8master';
+const mod_name = 'wn8master';
 process.chdir(mod_dir); // we go to the mod directory
 exec('python -m compileall ./'); // we compile the file
 
@@ -13,11 +14,21 @@ console.info(mod_dir, tmp, build_dir);
 deleteFolderRecursive(tmp);
 fs.mkdirSync(tmp);
 copy(mod_dir, tmp);
-zip(tmp, build_dir + '/mod.zip').then((e) => {
-    deleteFolderRecursive(tmp);
-    console.log('done');
-    console.log(e);
+let output = fs.createWriteStream(build_dir + '/mod.zip');
+var archive = archiver('zip', {
+    store: true,
 });
+archive.pipe(output);
+output.on('close', function () {
+    console.log(archive.pointer() + ' total bytes');
+    console.log(
+        'archiver has been finalized and the output file descriptor has closed.'
+    );
+    fs.renameSync(build_dir + '/mod.zip', build_dir + `/${mod_name}.wotmod`);
+    deleteFolderRecursive(tmp);
+});
+archive.directory(tmp, false);
+archive.finalize();
 
 function deleteFolderRecursive(path) {
     var files = [];
