@@ -162,13 +162,12 @@ API.get(
         res.json(
             await database.query(
                 `SELECT * FROM 
-                snapshots_data s, snapshots_user_data sd
+                snapshots_data s
                 WHERE s.id IN (
                 SELECT MAX(id) AS id
                 FROM snapshots 
                 WHERE pid = ?
-                GROUP BY \`date\`)
-                AND sd.id = s.id`,
+                GROUP BY \`date\`)`,
                 [req.params.player_id]
             )
         );
@@ -176,7 +175,21 @@ API.get(
 );
 
 API.get(
-    '/player/:player_id/tank/:tank_id/snapshots',
+    '/player/:player_id/available_snapshots',
+    asyn(async (req, res) => {
+        res.json(
+            await database.query(
+                `SELECT id, time
+                FROM snapshots 
+                WHERE pid = ?`,
+                [req.params.player_id]
+            )
+        );
+    })
+);
+
+API.get(
+    '/player/:player_id/tank/:tank_id/snapshots/:from/:to',
     asyn(async (req, res) => {
         res.json(
             (
@@ -185,8 +198,15 @@ API.get(
                     WHERE 
                     sd.id = s.id
                     AND s.pid = ?
-                    AND tank_id = ?`,
-                    [req.params.player_id, req.params.tank_id]
+                    AND tank_id = ?
+                    AND s.id >= ?
+                    AND s.id <= ?`,
+                    [
+                        req.params.player_id,
+                        req.params.tank_id,
+                        req.params.from,
+                        req.params.to,
+                    ]
                 )
             ).map((e: any) => {
                 let d = JSON.parse(e.data);
