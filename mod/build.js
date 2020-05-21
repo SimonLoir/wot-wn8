@@ -1,5 +1,6 @@
 //@ts-check
 const { exec } = require('child_process');
+const { zip } = require('zip-a-folder');
 const fs = require('fs');
 const path = require('path');
 const build_dir = __dirname + '/builds';
@@ -12,6 +13,11 @@ console.info(mod_dir, tmp, build_dir);
 deleteFolderRecursive(tmp);
 fs.mkdirSync(tmp);
 copy(mod_dir, tmp);
+zip(tmp, build_dir + '/mod.zip').then((e) => {
+    deleteFolderRecursive(tmp);
+    console.log('done');
+    console.log(e);
+});
 
 function deleteFolderRecursive(path) {
     var files = [];

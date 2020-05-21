@@ -106,3 +106,5 @@ dist
 
 data/exp.json
 data/tanks.json
+mod/builds/mod.wotmod
+mod/builds/mod.zip
