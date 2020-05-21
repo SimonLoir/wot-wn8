@@ -8,7 +8,8 @@
         "prod": "webpack -p",
         "server": "pm2 start app.js --no-vizion --watch",
         "logs": "pm2 logs",
-        "server-end": "pm2 stop app.js"
+        "server-end": "pm2 stop app.js",
+        "build": "node ./mod/build.js"
     },
     "repository": {
         "type": "git",
