@@ -6,4 +6,4 @@ def start():
 
 
 def stop():
-    LOG_NOTE('Started mod')
+    LOG_NOTE('End of mod')
