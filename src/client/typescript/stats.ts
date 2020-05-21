@@ -5,11 +5,26 @@ import { computeWN8, wn8, getColor } from './wn8';
 import { ExtJsObject, $ } from './extjs';
 import { createAd } from './ads';
 import { getCookie, setCookie } from './cookies';
+import { registerStyle } from './tables';
 //@ts-ignore
 const pid: string = window.data.user_id;
 const loading = section('Loading...');
 loading.content.text('Please wait while we are loading data from the server');
-
+const stats = [
+    ['Tier', 'tier'],
+    ['Tank', 'name'],
+    ['Win', 'avg_win_rate'],
+    ['Avg Dmg', 'avg_damages'],
+    ['Avg XP', 'avg_xp'],
+    ['Avg Spot', 'avg_spot'],
+    ['Avg Kills', 'avg_frag'],
+    ['Battles', 'battles'],
+    ['WN8', 'wn8'],
+];
+registerStyle(
+    'table',
+    stats.map((e) => e[0])
+);
 menu();
 fetch(`api/player/${pid}/data`)
     .then((response) => response.json())
@@ -110,6 +125,8 @@ fetch(`api/player/${pid}/data`)
             'Informations about ' + data.player.nickname + ' tanks'
         ).content.child('table');
 
+        tanks_info.addClass('table');
+
         let last = getCookie('last');
         let e = 1;
         const array_sort = (key: string) => {
@@ -151,17 +168,7 @@ fetch(`api/player/${pid}/data`)
         const render = () => {
             tanks_info.html('');
             const header = tanks_info.child('tr');
-            [
-                ['Tier', 'tier'],
-                ['Tank', 'name'],
-                ['Win', 'avg_win_rate'],
-                ['Avg Dmg', 'avg_damages'],
-                ['Avg XP', 'avg_xp'],
-                ['Avg Spot', 'avg_spot'],
-                ['Avg Kills', 'avg_frag'],
-                ['Battles', 'battles'],
-                ['WN8', 'wn8'],
-            ].forEach(([header_title, key]) =>
+            stats.forEach(([header_title, key]) =>
                 sort(
                     header
                         .child('th')
