@@ -158,6 +158,7 @@ fetch(`api/player/${pid}/data`)
                 ['Avg Dmg', 'avg_damages'],
                 ['Avg XP', 'avg_xp'],
                 ['Avg Spot', 'avg_spot'],
+                ['Avg Kills', 'avg_frag'],
                 ['Battles', 'battles'],
                 ['WN8', 'wn8'],
             ].forEach(([header_title, key]) =>
@@ -199,6 +200,7 @@ fetch(`api/player/${pid}/data`)
                 row.child('td').text(tank.avg_damages.toFixed(0));
                 row.child('td').text(tank.avg_xp.toFixed(0));
                 row.child('td').text(tank.avg_spot.toFixed(2));
+                row.child('td').text(tank.avg_frag.toFixed(2));
                 row.child('td').text(tank.battles.toFixed(0));
                 row.child('td')
                     .text(tank.wn8.toFixed(0))
