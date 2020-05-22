@@ -73,7 +73,9 @@ if (process.env.DISCORD_TOKEN) {
                 [username]
             );
             if (user_search.length != 1)
-                return message.channel.send('Could not find the user');
+                return message.channel.send(
+                    'Could not find the user, it may not be indexed in our database yet.'
+                );
             const { user_id, user_name } = user_search[0];
             const snapshot = await database.query(
                 'SELECT * FROM snapshots WHERE pid = ? ORDER BY id DESC LIMIT 1',
