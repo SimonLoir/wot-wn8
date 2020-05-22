@@ -2,6 +2,7 @@ from debug_utils import LOG_NOTE
 
 
 def start():
+
     LOG_NOTE('Started mod')
 
 

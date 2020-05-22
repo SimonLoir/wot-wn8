@@ -53,14 +53,16 @@ export function wn8(
     );
 }
 
-export function getColor(wn8: number) {
-    if (wn8 < 300) return 'black';
-    else if (wn8 < 599) return 'rgb(205,51,51)';
-    else if (wn8 < 899) return 'rgb(215,121,0)';
-    else if (wn8 < 1249) return 'rgb(215,182,0)';
-    else if (wn8 < 1599) return 'rgb(109,149,33)';
-    else if (wn8 < 1899) return 'rgb(76,118,46)';
-    else if (wn8 < 2349) return 'rgb(74,146,183)';
-    else if (wn8 < 2899) return 'rgb(131,87,157)';
-    else return 'rgb(90,49,117)';
+export function getColor(wn8: number, return_rgb = true) {
+    let colors: [number, number, number] = [90, 49, 117];
+    if (wn8 < 300) colors = [0, 0, 0];
+    else if (wn8 < 599) colors = [205, 51, 51];
+    else if (wn8 < 899) colors = [215, 121, 0];
+    else if (wn8 < 1249) colors = [215, 182, 0];
+    else if (wn8 < 1599) colors = [109, 149, 33];
+    else if (wn8 < 1899) colors = [76, 118, 46];
+    else if (wn8 < 2349) colors = [74, 146, 183];
+    else if (wn8 < 2899) colors = [131, 87, 157];
+    if (return_rgb) return `rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`;
+    else return colors;
 }
