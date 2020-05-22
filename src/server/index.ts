@@ -127,8 +127,7 @@ Visit ${url} to create one :-)`
                 const avg_spot = tank.spotted / tank.battles;
                 const avg_frag = tank.frags / tank.battles;
                 const avg_def = tank.dropped_capture_points / tank.battles;
-                const avg_win_rate =
-                    (100 * tank.wins) / (tank.wins + tank.draws + tank.losses);
+                const avg_win_rate = (100 * tank.wins) / tank.battles;
 
                 let wn8: number;
                 try {
@@ -156,11 +155,14 @@ Visit ${url} to create one :-)`
             const content = new Discord.MessageEmbed();
             content.setTitle(user_name);
             content.setDescription(`Username : ${user_name} #${user_id}
-            Last update : ${snapshot[0].date}
-            WN8 : ${global_wn8.toFixed(2)}
-            Battles : ${all.battles}
+Last update : ${snapshot[0].date}
+WN8 : ${global_wn8.toFixed(2)}
+Battles : ${all.battles}
+Win ratio : ${((100 * all.wins) / all.battles).toFixed(2)}
+Frags : ${(all.frags / all.battles).toFixed(2)} / battle
 
-            Link to update : ${url}
+
+Link to update : ${url}
             `);
             content.setColor(getColor(global_wn8, false));
             message.channel.send(content);
