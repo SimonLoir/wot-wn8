@@ -1,0 +1,162 @@
+body {
+    font-family: Arial,
+        "Helvetica Neue",
+        Helvetica,
+        sans-serif;
+    margin: 0;
+    padding: 0;
+    background: rgb(28, 28, 30);
+}
+
+header {
+    $header-color: rgb(139, 139, 139);
+    background: #050505;
+    color: $header-color;
+    line-height: 40px;
+
+    h1 {
+        font-size: inherit;
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+        color: white;
+        padding-left: 15px;
+    }
+
+    .menu-right {
+        position: relative;
+        float: right;
+        display: inline-block;
+        padding-right: 15px;
+    }
+
+    input {
+        background: transparent;
+        color: $header-color;
+
+        &:placeholder-shown {
+            color: $header-color;
+        }
+
+        margin-right: 5px;
+    }
+
+    button {
+        background: rgb(30, 30, 30);
+        color: $header-color;
+        cursor: pointer;
+    }
+
+    input,
+    button {
+        display: inline-block;
+        position: relative;
+        height: calc(100% - 4px);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border: 1px solid $header-color;
+    }
+
+    nav {
+        display: inline-block;
+        padding-left: 15px;
+
+        a {
+            color: $header-color;
+            text-decoration: none;
+
+            &+a {
+                margin-left: 15px;
+            }
+        }
+    }
+}
+
+main {
+    text-align: center;
+    padding-bottom: 25px;
+
+    table {
+        margin: auto;
+        width: 100%;
+        max-width: 1200px;
+        text-align: left;
+        color: rgb(158, 146, 125);
+        border-collapse: collapse;
+
+        tr {
+            line-height: 60px;
+        }
+
+        td,
+        th {
+            border: 1px solid rgb(48, 47, 45);
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        th {
+            background: rgb(48, 47, 45);
+        }
+    }
+
+    .player-header {
+        position: relative;
+        background-image: url('../../images/banner.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        height: 500px;
+        margin-bottom: 25px;
+        text-align: center;
+
+        .wrapper {
+            margin: auto;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            max-width: 1200px;
+
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-row: repeat(2, 1fr);
+            color: white;
+
+            &>div {
+                position: relative;
+
+                &>div {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+
+                    span {
+                        font-size: 30px;
+                    }
+
+                    h2 {
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            .user-battles-played {
+                grid-row-start: 1;
+                grid-column-start: 1;
+            }
+
+            .user-avg-damages {
+                grid-row-start: 2;
+                grid-column-start: 1;
+            }
+
+        }
+    }
+
+
+}
+
+//linear-gradient(to bottom,rgba(28,28,30,.5) 0%,#1c1c1e 100%)

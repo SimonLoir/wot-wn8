@@ -21,7 +21,7 @@ app.set('views', 'public/');
 app.use(APP_BASE_URL, express.static('public'));
 
 app.get(APP_BASE_URL, (req, res) => {
-    res.render('index');
+    res.render('home');
 });
 
 app.get(APP_BASE_URL + ':user_id', (req, res) => {

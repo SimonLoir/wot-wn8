@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('head') -%>
+    </head>
+    <body>
+        <%- include('header') -%>
+        <main>
+            <div class="player-header">
+                <div class="wrapper">
+                    <div class="user-battles-played">
+                        <div>
+                            <span>10.000</span>
+                            <h2>Battles played</h2>
+                        </div>
+                    </div>
+                    <div class="user-avg-damages">
+                        <div>
+                            <span>800</span>
+                            <h2>Avg damages</h2>
+                        </div>
+                    </div>
+                    <div class="user-avg-kills"></div>
+                    <div class="user-avg-xp"></div>
+                    <div class="user-name"></div>
+                </div>
+            </div>
+            <%- include('table') -%>
+        </main>
+        <%- include('footer') -%>
+    </body>
+</html>

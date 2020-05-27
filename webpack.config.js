@@ -5,9 +5,7 @@ module.exports = [
     {
         target: 'node',
         entry: {
-            site: './src/client/typescript/index.ts',
-            stats: './src/client/typescript/stats.ts',
-            tanks: './src/client/typescript/tanks.ts',
+            site: './src/client/ts/site.ts',
         },
         node: false,
         module: {
@@ -30,6 +28,13 @@ module.exports = [
                             loader: 'sass-loader', // compiles Sass to CSS
                         },
                     ],
+                },
+                {
+                    test: /\.(png|jpe?g|gif)$/i,
+                    loader: 'file-loader',
+                    options: {
+                        name: 'images/[name].[ext]',
+                    },
                 },
             ],
         },
