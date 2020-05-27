@@ -3,7 +3,6 @@ import * as express from 'express';
 import * as https from 'express-force-https';
 import * as Discord from 'discord.js';
 dotenv.config();
-import { API } from './api';
 import errorMessage from './errors';
 
 const {
@@ -20,7 +19,6 @@ app.use(https);
 
 app.set('views', 'public/');
 app.use(APP_BASE_URL, express.static('public'));
-app.use(APP_BASE_URL + 'api', API);
 
 app.get(APP_BASE_URL, (req, res) => {
     res.render('index');
