@@ -22,6 +22,18 @@ if (get('page') == 'player')
                 .css('color', getColor(user.wn8));
             $('.user-battles-played span').text(`${user.battles}`);
             $('.user-avg-xp span').text(`${user.avg_xp}`);
+
+            let tier = 0;
+            let count = 0;
+
+            data.snapshot.forEach((t) => {
+                const tank = data?.tanks[t.tank_id];
+                if (!tank) return;
+                tier += tank.tier * t.battles;
+                count += t.battles;
+            });
+
+            $('.user-avg-tier span').text((tier / count).toFixed(0));
             const table = $('main').child('table');
             data.snapshot.forEach((tank) => {
                 const tank_name =

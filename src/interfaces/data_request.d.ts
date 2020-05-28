@@ -3,6 +3,7 @@ declare interface data_request {
         sid: number;
         tank_id: number;
         wn8: number;
+        battles: number;
     }[];
     tanks: {
         [id: number]: {

@@ -122,6 +122,7 @@ export default async function updateLoop() {
                             return {
                                 id: tank.tank_id,
                                 wn8: isNaN(wn8) ? -1 : wn8,
+                                battles: tank.battles,
                             };
                         });
 
@@ -150,8 +151,8 @@ export default async function updateLoop() {
 
                     values.forEach((v) => {
                         const req = database.query(
-                            'INSERT INTO `snapshot_v2_data` VALUES (?, ?, ?)',
-                            [s, v.id, v.wn8.toFixed(2)]
+                            'INSERT INTO `snapshot_v2_data` VALUES (?, ?, ?, ?)',
+                            [s, v.id, v.wn8.toFixed(2), v.battles]
                         );
                     });
 
