@@ -4,7 +4,7 @@
         <%- include('head') -%>
     </head>
     <body>
-        <%- include('header') -%>
+        <%- include('header', params) -%>
         <main>
             <div class="player-header">
                 <div class="wrapper">
@@ -71,6 +71,6 @@
             </div>
             <%- include('table') -%>
         </main>
-        <%- include('footer') -%>
+        <%- include('footer', {script: "./"}) -%>
     </body>
 </html>

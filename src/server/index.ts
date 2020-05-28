@@ -5,6 +5,7 @@ import * as Discord from 'discord.js';
 dotenv.config();
 import errorMessage from './errors';
 import updateLoop from './updateLoop';
+import { api } from './api';
 
 const {
     APP_BASE_URL = '/',
@@ -20,18 +21,18 @@ app.use(https);
 
 app.set('views', 'public/');
 app.use(APP_BASE_URL, express.static('public'));
+app.use(APP_BASE_URL + 'player', express.static('public'));
 
 app.get(APP_BASE_URL, (req, res) => {
-    res.render('home');
+    res.render('home', { params: req.params });
 });
 
-app.get(APP_BASE_URL + ':user_id', (req, res) => {
-    res.render('stats', { params: req.params });
+app.get(APP_BASE_URL + 'player/:user_id(\\d+)', (req, res) => {
+    req.params.page = 'player';
+    res.render('player', { params: req.params });
 });
 
-app.get(APP_BASE_URL + ':user_id/:tank_id', (req, res) => {
-    res.render('tanks', { params: req.params });
-});
+app.use(APP_BASE_URL + 'api', api);
 
 app.listen(PORT, () =>
     console.log(`Server started at ${new Date().toString()}`)

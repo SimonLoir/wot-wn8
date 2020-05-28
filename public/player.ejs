@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('head') -%>
+    </head>
+    <body>
+        <%- include('header', params) -%>
+        <main>
+            <div class="player-header">
+                <div class="wrapper">
+                    <div class="user-battles-played">
+                        <div>
+                            <span></span>
+                            <h2>Battles played</h2>
+                        </div>
+                    </div>
+                    <div class="user-avg-damages">
+                        <div>
+                            <span></span>
+                            <h2>Average damages</h2>
+                        </div>
+                    </div>
+                    <div class="user-avg-kills">
+                        <div>
+                            <span></span>
+                            <h2>Kills per battle</h2>
+                        </div>
+                    </div>
+                    <div class="user-avg-xp">
+                        <div>
+                            <span></span>
+                            <h2>Average xp earned</h2>
+                        </div>
+                    </div>
+                    <div class="user-name">
+                        <div>
+                            <span></span>
+                            WN8
+                            <h2></h2>
+                        </div>
+                    </div>
+
+                    <div class="user-avg-tier">
+                        <div>
+                            <span></span>
+                            <h2>Average tanks tier</h2>
+                        </div>
+                    </div>
+
+                    <div class="user-recent">
+                        <div>
+                            <span></span>
+                            <h2>Recent WN8 (last 24h)</h2>
+                        </div>
+                    </div>
+
+                    <div class="user-recent-week">
+                        <div>
+                            <span></span>
+                            <h2>Recent WN8 (last week)</h2>
+                        </div>
+                    </div>
+
+                    <div class="user-recent-month">
+                        <div>
+                            <span></span>
+                            <h2>Recent WN8 (last month)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <%- include('footer', {script: "../"}) -%>
+    </body>
+</html>
