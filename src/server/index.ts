@@ -4,6 +4,7 @@ import * as https from 'express-force-https';
 import * as Discord from 'discord.js';
 dotenv.config();
 import errorMessage from './errors';
+import updateLoop from './updateLoop';
 
 const {
     APP_BASE_URL = '/',
@@ -46,3 +47,5 @@ app.use(
         errorMessage(err.message, res);
     }
 );
+
+updateLoop();

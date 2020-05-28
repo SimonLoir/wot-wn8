@@ -10,7 +10,6 @@ export default class WOTAPI_default {
         options.application_id = this.appID;
         const params = this.serialize(options);
         const url = `https://api.worldoftanks.${this.server}/wot/${endpoint}/?${params}`;
-        console.log(url);
         return await (await fetch(url)).json();
     }
     /**
